@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.title }} | MyWebsite{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top:40px;">
+
+  <!-- Title -->
+  <h1 class="text-center" style="margin-bottom:20px;">{{ topic.title }}</h1>
+
+  <!-- ✅ Responsive Banner Image -->
+  {% if topic.banner_image %}
+    <div class="banner-container" style="margin-bottom:30px;">
+      <img src="{{ topic.banner_image.url }}" alt="{{ topic.title }}" 
+           class="img-responsive topic-banner">
+    </div>
+  {% endif %}
+
+  <!-- Content -->
+  <div style="margin-top:20px; font-size:16px; line-height:1.6;">
+    {{ topic.content|safe }}
+  </div>
+
+  <hr>
+
+  <!-- Back Button -->
+  <a href="{{ topic.area.get_absolute_url }}" class="btn btn-default">
+    ← Back to {{ topic.area.title }}
+  </a>
+</div>
+
+<!-- 🔹 CSS -->
+<style>
+  /* Banner container ensures full width */
+  .banner-container {
+    width: 100%;
+    overflow: hidden;
+    
+  }
+
+  /* Topic banner image: responsive and nicely rounded */
+  .topic-banner {
+    max-width: 100%;   /* prevents overflow */
+    height: auto;      /* keeps aspect ratio */
+    border-radius: 8px;
+    display: block;    /* remove extra space below image */
+    margin: 0 auto;    /* center image if smaller than container */
+  }
+
+  /* Optional: content styling */
+  .container div {
+    word-wrap: break-word; /* prevents long words from breaking layout */
+  }
+  
+</style>
+{% endblock %}

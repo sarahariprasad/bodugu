@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Impact Stories{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px; margin-bottom:50px;">
+    <h2 class="text-center">Impact Stories</h2>
+    <div class="row" style="margin-top:30px;">
+        {% for cat in categories %}
+        <div class="col-md-4" style="margin-bottom:30px;">
+            <div class="card" style="border:1px solid #ddd; padding:15px; border-radius:8px; height:100%;">
+                {% if cat.image %}
+                    <img src="{{ cat.image.url }}" class="img-responsive img-rounded" alt="{{ cat.name }}" style="width:100%; height:200px; object-fit:cover;">
+                {% endif %}
+                <h3 style="margin-top:15px;">{{ cat.name }}</h3>
+                <p>{{ cat.short_description|truncatewords:25 }}</p>
+                <a href="{% url 'impact_category_detail' cat.slug %}" class="btn btn-primary">View Stories</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

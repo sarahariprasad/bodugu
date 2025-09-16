@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Board of Trustees | MyWebsite{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top:50px; margin-bottom:60px;">
+
+    <!-- Section Heading -->
+    <h2 class="text-center"
+        style="margin-bottom:40px; font-weight:700; font-size:32px; color:#00264d; letter-spacing:1px;"
+        data-aos="fade-down">
+        Board of Trustees
+    </h2>
+
+    <div class="row trustee-row">
+        {% for trustee in trustees %}
+        <div class="col-md-4 col-sm-6 col-xs-12" style="margin-bottom:30px;" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+            <div class="card text-center trustee-card">
+
+                <!-- Trustee Image -->
+                {% if trustee.photo %}
+                <img src="{{ trustee.photo.url }}" alt="{{ trustee.name }}"
+                     class="img-responsive center-block trustee-img">
+                {% else %}
+                <img src="{% static 'images/default-avatar.png' %}" alt="{{ trustee.name }}"
+                     class="img-responsive center-block trustee-img">
+                {% endif %}
+
+                <!-- Trustee Name -->
+                <h4 class="trustee-name">{{ trustee.name }}</h4>
+
+                <!-- Designation -->
+                {% if trustee.designation %}
+                <p class="trustee-designation">{{ trustee.designation }}</p>
+                {% endif %}
+
+                <!-- Bio -->
+                {% if trustee.bio %}
+                <p class="trustee-bio">{{ trustee.bio|safe}}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-md-12">
+            <p class="text-center" style="font-size:16px; color:#777;">No trustees available at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Extra Styling -->
+<style>
+    /* Flex row ensures equal card height */
+    .trustee-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .trustee-row > div {
+        display: flex;
+    }
+
+    /* Trustee card */
+    .trustee-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border: none;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align everything at the top */
+        min-height: 420px;           /* Equal card height */
+    }
+
+    .trustee-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    }
+
+    /* Trustee Image */
+    .trustee-img {
+        height: 180px;
+        width: 180px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* Name */
+    .trustee-name {
+        margin: 12px 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #0073e6;
+    }
+
+    /* Designation */
+    .trustee-designation {
+        font-size: 15px;
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 12px;
+    }
+
+    /* Bio */
+    /* Trustee Bio */
+    .trustee-bio {
+        font-size: 14px;
+        color: #666;
+        text-align: justify;
+        line-height: 1.6;
+        margin-top: 10px;   /* small gap after designation */
+        margin-bottom: auto; /* pushes empty space BELOW bio */
+    }
+</style>
+
+<!-- AOS (Animate On Scroll) -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,
+    offset: 120,
+    once: true
+  });
+</script>
+{% endblock %}

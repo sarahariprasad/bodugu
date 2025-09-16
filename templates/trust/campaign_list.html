@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container campaign-section">
+    <h2 class="text-primary fw-bold text-center mb-4">Active Fundraising Campaigns</h2>
+    <hr class="border-success mb-4">
+
+    <div class="row">
+        {% for campaign in campaigns %}
+        <div class="col-md-4 col-sm-6 mb-4 d-flex">
+            <div class="card campaign-card shadow-sm rounded flex-fill">
+                <!-- Campaign Image -->
+                <div class="image-container">
+                    <img src="{{ campaign.image.url }}" class="card-img-top" alt="{{ campaign.title }}">
+                </div>
+
+                <!-- Campaign Body -->
+                <div class="card-body text-center d-flex flex-column">
+                    <!-- Title in Blue -->
+                    <h4 class="card-title campaign-title">{{ campaign.title }}</h4>
+
+                <!-- Progress Section -->
+                <div class="mb-3">
+                    <div class="progress" style="height: 8px; border-radius: 5px;">
+                        <div class="progress-bar bg-success" role="progressbar"
+                            style="width: {{ campaign.progress_percentage }}%;">
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        {{ campaign.progress_percentage }}% funded
+                    </small>
+                </div>
+
+                    <!-- Raised / Goal -->
+                    <p class="mb-3">
+                        <b>Raised:</b> ₹{{ campaign.raised_amount|floatformat:2 }} <br>
+                        <b>Goal:</b> ₹{{ campaign.goal_amount|floatformat:2 }}
+                    </p>
+
+                    <!-- Donate Button -->
+                    <div class="mt-auto">
+                        <a href="{% url 'campaign_detail' campaign.slug %}" class="donate-btn">
+                            DONATE NOW
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">No active campaigns at the moment.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* Campaign Section spacing */
+.campaign-section {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+/* Campaign Card Styling */
+.campaign-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+.campaign-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* Image Styling */
+.image-container {
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+}
+.image-container img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.campaign-card:hover .image-container img {
+    transform: scale(1.08);
+}
+
+/* Title Blue */
+.campaign-title {
+    color: #007bff;  /* Bootstrap blue */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Donate Button - Green Centered */
+.donate-btn {
+    display: inline-block;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 25px;
+    background: #21b544;
+    color: #fff !important;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+.donate-btn:hover {
+    background: #13b336;
+    transform: scale(1.05);
+}
+
+/* Mobile Friendly */
+@media (max-width: 767px) {
+    .image-container img {
+        height: 180px;
+    }
+}
+</style>
+{% endblock %}

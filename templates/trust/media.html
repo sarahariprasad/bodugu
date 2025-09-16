@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Media Gallery{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top:30px; margin-bottom:50px;">
+    <h2 class="text-center" style="margin-bottom:30px;">Media Gallery</h2>
+
+    <!-- Images Section -->
+    <h3 class="text-left" style="margin-bottom:20px;">Images</h3>
+    {% if images %}
+        <div class="row">
+            {% for item in images %}
+                <div class="col-md-4 col-sm-6" style="margin-bottom:30px;">
+                    <div class="card">
+                        <div class="media-wrapper">
+                            <img src="{{ item.image.url }}" 
+                                 alt="{{ item.title }}">
+                        </div>
+                        <div class="card-body" style="padding:10px;">
+                            <h4>{{ item.title }}</h4>
+                            {% if item.description %}
+                                <p>{{ item.description|linebreaks }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No images available.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Videos Section -->
+    <h3 class="text-left" style="margin-bottom:20px;">Videos</h3>
+    {% if videos %}
+        <div class="row">
+            {% for item in videos %}
+                <div class="col-md-6 col-sm-12" style="margin-bottom:30px;">
+                    <div class="card">
+                        <div class="media-wrapper">
+                            <video controls>
+                                <source src="{{ item.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body" style="padding:10px;">
+                            <h4>{{ item.title }}</h4>
+                            {% if item.description %}
+                                <p>{{ item.description|linebreaks }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No videos available.</p>
+    {% endif %}
+</div>
+
+<!-- Uniform Media Styling -->
+<style>
+    .media-wrapper {
+        width: 100%;
+        height: 220px;  /* ✅ Fixed height for both images & videos */
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    .media-wrapper img,
+    .media-wrapper video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;  /* ✅ Crops nicely while maintaining aspect ratio */
+        border-radius: 8px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

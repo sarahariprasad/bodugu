@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  body {
+      padding-top: 100px; /* equal to navbar height */
+  }
+  .donation-card {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      background: #ffffff;
+  }
+  .donation-card h2 {
+      margin-bottom: 25px;
+      font-weight: bold;
+      text-align: center;
+  }
+  .donation-card .form-group {
+      margin-bottom: 20px;
+  }
+  .donation-card button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+  }
+  @media (max-width: 767px) {
+      .donation-card {
+          padding: 20px;
+      }
+  }
+</style>
+
+<div class="container my-5">
+    <div class="donation-card">
+        <h2>
+            {% if category %}
+                Donate for {{ category.name }}
+            {% elif campaign %}
+                Donate to Campaign: {{ campaign.title }}
+            {% else %}
+                Make a Donation
+            {% endif %}
+        </h2>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="Your Email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Your Mobile">
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Donation Amount</label>
+                <input type="text" name="amount" class="form-control" id="amount" value="{{ preselected_amount }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" name="dob" class="form-control" id="dob">
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="certificate_80g"> 80G Certificate
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Donate Now</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

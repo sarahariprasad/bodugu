@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Tender Notices{% endblock %}
+{% block content %}
+
+<div class="container" style="margin-top:30px; margin-bottom:50px;">
+    <h2 class="text-center">Tender Notices</h2>
+    <hr>
+
+    {% if tenders %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead style="background:#f5f5f5;">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Published Date</th>
+                        <th>Expiry Date</th>
+                        <th>Document</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tender in tenders %}
+                        <tr>
+                            <td>{{ tender.title }}</td>
+                            <td>{{ tender.description|truncatewords:20 }}</td>
+                            <td>{{ tender.published_date }}</td>
+                            <td>
+                                {% if tender.expiry_date %}
+                                    {{ tender.expiry_date }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if tender.document %}
+                                    <a href="{{ tender.document.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                        Download
+                                    </a>
+                                {% else %}
+                                    No File
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center">No tender notices available at the moment.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

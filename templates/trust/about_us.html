@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ about.title }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Page wrapper */
+    .about-us-page {
+        margin-top: 100px; /* space below navbar */
+        margin-bottom: 60px;
+    }
+
+    /* Page Title */
+    .about-us-page h1 {
+        font-weight: bold;
+        font-size: 34px;
+        color: #222;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Shared Card Style (Banner, Description, Stats) */
+    .about-card {
+        max-width: 950px;   /* ✅ all equal size */
+        margin: 0 auto 30px auto;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        background: #fff;
+        overflow: hidden;
+    }
+
+    /* Banner */
+    .about-banner img {
+        width: 100%;
+        max-height: 420px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    /* Description */
+    .about-text {
+        font-size: 17px;
+        line-height: 1.8;
+        color: #333;
+        text-align: justify;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 25px;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        padding: 40px 20px;
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 25px 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .stat-box:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+        background: #fff;
+    }
+
+    .stat-box img {
+        height: 65px;
+        margin-bottom: 15px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #0056b3;
+    }
+
+    .stat-title {
+        font-size: 15px;
+        color: #555;
+        margin-top: 8px;
+        font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .about-us-page h1 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            font-size: 15px;
+            padding: 15px;
+        }
+
+        .stat-box img {
+            height: 50px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+        }
+
+        .stat-title {
+            font-size: 13px;
+        }
+    }
+</style>
+
+<div class="about-us-page text-center">
+
+  <!-- Page Title -->
+  <h1>{{ about.title }}</h1>
+
+  <!-- Banner Image Card -->
+  {% if about.banner_image %}
+  <div class="about-card about-banner">
+      <img src="{{ about.banner_image.url }}" alt="{{ about.title }}">
+  </div>
+  {% endif %}
+
+  <!-- Description Card -->
+  <div class="about-card">
+      <div class="about-text text-left">
+          {{ about.description|safe }}
+      </div>
+  </div>
+
+  <!-- Stats Section Card -->
+  <div class="about-card stats-section">
+      <div class="row">
+          {% for stat in stats %}
+          <div class="col-xs-6 col-sm-6 col-md-3">
+              <div class="stat-box">
+                  {% if stat.icon %}
+                    <img src="{{ stat.icon.url }}" alt="{{ stat.title }}">
+                  {% endif %}
+                  <div class="stat-value">{{ stat.value }}</div>
+                  <div class="stat-title">{{ stat.title }}</div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+
+</div>
+{% endblock %}
